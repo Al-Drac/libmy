@@ -1,0 +1,78 @@
+/*
+** my_str_to_wordtab.c for Exo3J7 in /home/remimarchal/CJour07/marcha_r/my_str_to_wordtab
+** 
+** Made by MARCHAL Rémi
+** Login   <marcha_r@etna-alternance.net>
+** 
+** Started on  Mon Mar 28 13:37:37 2016 MARCHAL Rémi
+** Last update Thu Apr 21 13:27:48 2016 MARCHAL Rémi
+*/
+#include <stdlib.h>
+int     is_alpha_num(char c)
+{
+  if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+    {
+      return(1);
+    }
+  else
+    {
+      return(0);
+    }
+}
+
+int     my_count_word(char *str)
+{
+  int   count_word;
+  int   count;
+
+  count_word = 0;
+  count = 0;
+  while (str[count] != '\0')
+    {
+      if (is_alpha_num(str[count]) == 1)
+	{
+	  count = count + 1;
+	}
+      else
+	{
+	  while (is_alpha_num(str[count]) == 0)
+	    {
+	      count = count + 1;
+	    }
+	  count_word = count_word + 1;
+	}
+    }
+  return (count_word);
+}
+
+char	**my_str_to_wordtab(char *str)
+{
+  char  **tab;
+  int   count;
+  int   tab_glob;
+  int   tab_in;
+  
+  count = 0;
+  tab_glob = 0;
+  tab_in = 0;
+  tab = malloc(sizeof(*tab) * (my_count_word(str)));
+  while (str[count] != '\0')
+    {
+      tab[tab_glob] =  malloc(sizeof(*tab) * my_count_word(str) + 1);
+      while ((is_alpha_num(str[count]) == 0) && str[count] != '\0')
+	{
+	count = count + 1;
+	}
+      while (is_alpha_num(str[count]) == 1 && str[count] != '\0')
+	{
+	  tab[tab_glob][tab_in] = str[count];
+	  count = count + 1;
+	  tab_in = tab_in + 1;
+	}
+      tab[tab_glob][tab_in] = '\0';
+      tab_glob = tab_glob + 1;  
+      tab_in = 0;
+    }
+  tab[tab_glob] = '\0';
+  return (tab);
+}
